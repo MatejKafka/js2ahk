@@ -1,3 +1,10 @@
+**Warning: as version number suggests, this is an alpha version of an alpha version.
+Currently, only a handful of AHK functions are implemented and the documentation is
+severely lacking.**
+
+**Continue at your own discretion, you've been warned.**
+
+
 # js2ahk
 A small tool for transpiling JavaScript to .ahk AutoHotkey files.
 
