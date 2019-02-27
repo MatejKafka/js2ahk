@@ -1,15 +1,8 @@
 const AhkTree = require('./src/AhkTree')
 const constructAhkProxy = require('./src/constructAhkProxy')
 const fs = require('fs')
+const ahkFunctions = require('./src/ahkApi')
 
-
-const ahkFunctions = {
-	win: require('./src/ahkApi/win'),
-
-	runProgram: require('./src/ahkApi/runProgram'),
-	if: require('./src/ahkApi/if'),
-	remap: require('./src/ahkApi/remap'),
-}
 
 const processResult = (filePath, ahkTree) => {
 	if (filePath == null) {

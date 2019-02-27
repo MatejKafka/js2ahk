@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const createAhkScript = require('..')
 const fs = require('fs')
 const path = require('path')
