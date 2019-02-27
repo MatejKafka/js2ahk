@@ -1,6 +1,6 @@
 {
   "name": "js2ahk",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Small package that lets you write AHK scripts in pure JS and transpile them to .ahk files",
   "main": "index.js",
   "bin": "./bin/cli.js",
@@ -12,5 +12,6 @@
     "transpiler"
   ],
   "author": "Matej Kafka (Anagmate)",
+  "repository": "https://github.com/Anagmate/js2ahk.git",
   "license": "ISC"
 }
