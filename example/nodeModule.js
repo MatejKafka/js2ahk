@@ -1,7 +1,7 @@
 const createAhkScript = require('..')
 const path = require('path')
 
-const scriptPath = path.resolve(__dirname, './test.ahk')
+const scriptPath = path.resolve(__dirname, './nodeModule_output.ahk')
 
 createAhkScript(scriptPath, (ahk) => {
 	const mapKeyToProgram = (hotkey, programExeName, programExePath) => {

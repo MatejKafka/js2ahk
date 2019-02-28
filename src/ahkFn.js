@@ -12,6 +12,9 @@ class AhkLeafNode extends AhkNode {
 	}
 }
 
+module.exports.AhkLeafNode = AhkLeafNode
+
+
 /**
  * @param {string} name
  * @returns {function([]):AhkLeafNode}

@@ -1,10 +1,10 @@
-const {procedure} = require('../ahkFn')
+const {procedure, AhkLeafNode} = require('../ahkFn')
 const {PrimitiveInputValue} = require('../InputValue')
-const AhkNode = require('../AhkNode')
+
 
 /**
  * @param {PrimitiveInputValue} pathToExe
- * @returns {AhkNode}
+ * @returns {AhkLeafNode}
  */
 module.exports = (pathToExe) => {
 	return procedure('Run')([pathToExe.readPrimitive()])

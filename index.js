@@ -1,7 +1,7 @@
 const AhkTree = require('./src/AhkTree')
 const constructAhkProxy = require('./src/constructAhkProxy')
 const fs = require('fs')
-const ahkFunctions = require('./src/ahkApi')
+const {functions: ahkFunctions, PublicApi} = require('./src/ahkApi')
 
 
 const processResult = (filePath, ahkTree) => {
@@ -12,9 +12,18 @@ const processResult = (filePath, ahkTree) => {
 	return ahkTree
 }
 
-
+/**
+ *
+ * @param filePath
+ * @param {function(PublicApi)} scriptFn
+ * @return {Promise<AhkTree>|AhkTree}
+ */
 module.exports = (filePath, scriptFn) => {
 	let ahkTree = new AhkTree()
+
+	/**
+	 * @type {PublicApi}
+	 */
 	const ahk = constructAhkProxy(ahkTree, ahkFunctions, 'ahk')
 
 	const result = scriptFn(ahk)
