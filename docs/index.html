@@ -1,0 +1,994 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset='utf-8' />
+  <title>js2ahk 0.1.3 | Documentation</title>
+  <meta name='description' content='Small package that lets you write AHK scripts in pure JS and transpile them to .ahk files'>
+  <meta name='viewport' content='width=device-width,initial-scale=1'>
+  <link href='assets/bass.css' rel='stylesheet' />
+  <link href='assets/style.css' rel='stylesheet' />
+  <link href='assets/github.css' rel='stylesheet' />
+  <link href='assets/split.css' rel='stylesheet' />
+</head>
+<body class='documentation m0'>
+    <div class='flex'>
+      <div id='split-left' class='overflow-auto fs0 height-viewport-100'>
+        <div class='py1 px2'>
+          <h3 class='mb0 no-anchor'>js2ahk</h3>
+          <div class='mb1'><code>0.1.3</code></div>
+          <input
+            placeholder='Filter'
+            id='filter-input'
+            class='col12 block input'
+            type='text' />
+          <div id='toc'>
+            <ul class='list-reset h5 py1-ul'>
+              
+                
+                <li><a
+                  href='#ahkif'
+                  class="">
+                  ahk.if
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#ahkremap'
+                  class="">
+                  ahk.remap
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#ahkrunprogram'
+                  class="">
+                  ahk.runProgram
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#keycombination'
+                  class="">
+                  KeyCombination
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#ahkwinexist'
+                  class="">
+                  ahk.win.exist
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#ahkwinactive'
+                  class="">
+                  ahk.win.active
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#ahkwinactivate'
+                  class="">
+                  ahk.win.activate
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#ahkwinminimize'
+                  class="">
+                  ahk.win.minimize
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#ahkwinmaximize'
+                  class="">
+                  ahk.win.maximize
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#ahkwinwait'
+                  class="">
+                  ahk.win.wait
+                  
+                </a>
+                
+                </li>
+              
+            </ul>
+          </div>
+          <div class='mt1 h6 quiet'>
+            <a href='https://documentation.js.org/reading-documentation.html'>Need help reading this?</a>
+          </div>
+        </div>
+      </div>
+      <div id='split-right' class='relative overflow-auto height-viewport-100'>
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='ahkif'>
+      ahk.if
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Due to the way <code>js2ahk</code> works, you cannot use normal <code>if</code> statements,
+as they won't transpile.
+The function accepts 3 callbacks: <code>condFn</code> should contain single statement
+and it's the condition for the AHK If statement. <code>ifBranchFn</code> contains the
+code that will be executed if the condition is correct. Similarly for <code>elseBranchFn</code>.</p>
+<p>Transpiles to If (cond) {
+trueCb
+} else {
+falseCb
+}</p>
+
+    <div class='pre p1 fill-light mt0'>ahk.if(cond: function (), trueCb: function (), falseCb: function ()): AhkIfNode</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>cond</span> <code class='quiet'>(function ())</code>
+	    This function should only contain single AHK function;
+it will be transpiled to the If statement condition.
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>trueCb</span> <code class='quiet'>(function ())</code>
+	    Will be transpiled into the if branch.
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>falseCb</span> <code class='quiet'>(function ())</code>
+	    Will be transpiled into the else branch.
+
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>AhkIfNode</code>:
+        
+
+      
+    
+  
+
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Example</div>
+    
+      
+      <pre class='p1 overflow-auto round fill-light'>ahk.if(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> ahk.win.exist(<span class="hljs-string">'exe'</span>, <span class="hljs-string">'program.exe'</span>),
+    () =&gt; {
+        <span class="hljs-comment">// will be transpiled to the if branch</span>
+    },
+    () =&gt; {
+        <span class="hljs-comment">// will be transpiled to the else branch</span>
+    }
+)</pre>
+    
+      
+      <pre class='p1 overflow-auto round fill-light'>ahk.if(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> ahk.win.exist(<span class="hljs-string">'exe'</span>, <span class="hljs-string">'Firefox.exe'</span>),
+    () =&gt; {
+        ahk.win.activate(<span class="hljs-string">'exe'</span>, <span class="hljs-string">'Firefox.exe'</span>)
+    },
+    () =&gt; {
+        ahk.runProgram(<span class="hljs-string">'path/to/firefox/Firefox.exe'</span>)
+        ahk.win.wait(<span class="hljs-string">'exe'</span>, <span class="hljs-string">'Firefox.exe'</span>)
+        ahk.win.activate(<span class="hljs-string">'exe'</span>, <span class="hljs-string">'Firefox.exe'</span>)
+    }
+)
+<span class="hljs-comment">// will be transpiled to</span>
+<span class="hljs-comment">// If (WinExist("ahk_exe Firefox.exe")) {</span>
+<span class="hljs-comment">//     WinActivate, ahk_exe Firefox.exe</span>
+<span class="hljs-comment">// } else {</span>
+<span class="hljs-comment">//     Run, path/to/firefox/Firefox.exe</span>
+<span class="hljs-comment">//     WinWait, ahk_exe Firefox.exe</span>
+<span class="hljs-comment">//     WinActivate, ahk_exe Firefox.exe</span>
+<span class="hljs-comment">// }</span></pre>
+    
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='ahkremap'>
+      ahk.remap
+    </h3>
+    
+    
+  </div>
+  
+
+  
+    <div class='pre p1 fill-light mt0'>ahk.remap(keyCombination: <a href="#keycombination">KeyCombination</a>, action: (<a href="#keycombination">KeyCombination</a> | function ())): (AhkHotkeyNode | AhkRemapNode)</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>keyCombination</span> <code class='quiet'>(<a href="#keycombination">KeyCombination</a>)</code>
+	    List of trigger keys (for modifiers like ctrl,
+use 
+<code>"Ctrl"</code>
+, not the single-character shortcuts from AHK).
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>action</span> <code class='quiet'>((<a href="#keycombination">KeyCombination</a> | function ()))</code>
+	    Either a callback, that contains code that
+will get executed after the trigger combination is pressed, or an array of keys,
+which will be triggered by the original trigger combination.
+
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>(AhkHotkeyNode | AhkRemapNode)</code>:
+        
+
+      
+    
+  
+
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Example</div>
+    
+      
+      <pre class='p1 overflow-auto round fill-light'>ahk.remap([<span class="hljs-string">'Ctrl'</span>, <span class="hljs-string">'Alt'</span>, <span class="hljs-string">'f'</span>], () =&gt; ahk.win.activate(<span class="hljs-string">'exe'</span>, <span class="hljs-string">'Firefox.exe'</span>))
+<span class="hljs-comment">// will be transpiled to</span>
+<span class="hljs-comment">//</span>
+<span class="hljs-comment">// ^!f::</span>
+<span class="hljs-comment">//     WinActivate, ahk_exe Firefox.exe</span>
+<span class="hljs-comment">// return</span></pre>
+    
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='ahkrunprogram'>
+      ahk.runProgram
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Wrapper around <a href="https://autohotkey.com/docs/commands/Run.htm">Run</a>.
+Runs program specified by the argument.</p>
+
+    <div class='pre p1 fill-light mt0'>ahk.runProgram(pathToExe: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): AhkLeafNode</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>pathToExe</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>AhkLeafNode</code>:
+        
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='keycombination'>
+      KeyCombination
+    </h3>
+    
+    
+  </div>
+  
+
+  
+    <div class='pre p1 fill-light mt0'>KeyCombination</div>
+  
+    <p>
+      Type:
+      (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>>)
+    </p>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='ahkwinexist'>
+      ahk.win.exist
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Wrapper around <a href="https://autohotkey.com/docs/commands/WinExist.htm">WinExist</a>.</p>
+<p>Currently, only the first (<a href="https://autohotkey.com/docs/misc/WinTitle.htm">WinTitle</a>) argument is supported.
+Support for other arguments like window content might be added if deemed useful enough.</p>
+
+    <div class='pre p1 fill-light mt0'>ahk.win.exist(identifierType: (null | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)?, identifier: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>?): AhkLeafNode</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>identifierType</span> <code class='quiet'>((null | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)?)</code>
+	    Gets transpiled into the 
+<code>ahk_&#x3C;type></code>
+ specifier;
+valid values are 
+<code>"class"</code>
+, 
+<code>"id"</code>
+, 
+<code>"pid"</code>
+, 
+<code>"exe"</code>
+, 
+<code>"group"</code>
+
+or 
+<code>null</code>
+ (for special identifiers like 
+<code>A</code>
+).
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>identifier</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>?)</code>
+	    The 
+<code>identifier</code>
+ identifies the window you are working with, see more here:
+
+<a href="https://www.autohotkey.com/docs/misc/WinTitle.htm">WinTitle</a>
+
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>AhkLeafNode</code>:
+        
+
+      
+    
+  
+
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Example</div>
+    
+      
+      <pre class='p1 overflow-auto round fill-light'>ahk.win.exist(<span class="hljs-literal">null</span>, <span class="hljs-string">'A'</span>) <span class="hljs-comment">// current active window</span></pre>
+    
+      
+      <pre class='p1 overflow-auto round fill-light'>ahk.win.exist(<span class="hljs-string">'exe'</span>, <span class="hljs-string">'program.exe'</span>) <span class="hljs-comment">// matches running program with given executable name</span></pre>
+    
+      
+      <pre class='p1 overflow-auto round fill-light'>ahk.win.exist() <span class="hljs-comment">// last used window</span></pre>
+    
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='ahkwinactive'>
+      ahk.win.active
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Wrapper around <a href="https://autohotkey.com/docs/commands/WinActive.htm">WinActive</a>.</p>
+<p>Read more about arguments at <a href=".#ahkwinexist">ahk.win.exist</a></p>
+
+    <div class='pre p1 fill-light mt0'>ahk.win.active(identifierType: (null | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)?, identifier: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>?): AhkLeafNode</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>identifierType</span> <code class='quiet'>((null | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)?)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>identifier</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>?)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>AhkLeafNode</code>:
+        
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='ahkwinactivate'>
+      ahk.win.activate
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Wrapper around <a href="https://autohotkey.com/docs/commands/WinActivate.htm">WinActivate</a>.</p>
+<p>Read more about arguments at <a href=".#ahkwinexist">ahk.win.exist</a></p>
+
+    <div class='pre p1 fill-light mt0'>ahk.win.activate(identifierType: (null | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)?, identifier: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>?): AhkLeafNode</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>identifierType</span> <code class='quiet'>((null | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)?)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>identifier</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>?)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>AhkLeafNode</code>:
+        
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='ahkwinminimize'>
+      ahk.win.minimize
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Wrapper around <a href="https://autohotkey.com/docs/commands/WinMinimize.htm">WinMinimize</a>.</p>
+<p>Read more about arguments at <a href=".#ahkwinexist">ahk.win.exist</a></p>
+
+    <div class='pre p1 fill-light mt0'>ahk.win.minimize(identifierType: (null | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)?, identifier: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>?): AhkLeafNode</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>identifierType</span> <code class='quiet'>((null | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)?)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>identifier</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>?)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>AhkLeafNode</code>:
+        
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='ahkwinmaximize'>
+      ahk.win.maximize
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Wrapper around <a href="https://autohotkey.com/docs/commands/WinMaximize.htm">WinMaximize</a>.</p>
+<p>Read more about arguments at <a href=".#ahkwinexist">ahk.win.exist</a></p>
+
+    <div class='pre p1 fill-light mt0'>ahk.win.maximize(identifierType: (null | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)?, identifier: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>?): AhkLeafNode</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>identifierType</span> <code class='quiet'>((null | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)?)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>identifier</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>?)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>AhkLeafNode</code>:
+        
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='ahkwinwait'>
+      ahk.win.wait
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Wrapper around <a href="https://autohotkey.com/docs/commands/WinWait.htm">WinWait</a>.</p>
+<p>Read more about arguments at <a href=".#ahkwinexist">ahk.win.exist</a></p>
+
+    <div class='pre p1 fill-light mt0'>ahk.win.wait(identifierType: (null | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)?, identifier: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>?): AhkLeafNode</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>identifierType</span> <code class='quiet'>((null | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)?)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>identifier</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>?)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>AhkLeafNode</code>:
+        
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+      </div>
+    </div>
+  <script src='assets/anchor.js'></script>
+  <script src='assets/split.js'></script>
+  <script src='assets/site.js'></script>
+</body>
+</html>

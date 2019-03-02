@@ -15,7 +15,7 @@ const getWinTitle = (identifierType, identifier) => {
 
 /**
  * @param {function} calledFn - wrapped fn
- * @returns {function(...[PrimitiveInputValue]): *}
+ * @returns {function(args: ...PrimitiveInputValue)} - takes variable number of args
  */
 const primitiveParamFn = (calledFn) => (...args) => {
 	return calledFn.apply(null, args.map(arg => arg.readPrimitive()))

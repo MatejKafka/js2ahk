@@ -23,15 +23,15 @@ module.exports = (ahkTree, obj, path) => {
 	}
 
 	return new Proxy(obj, {
-		get: (fns, prop) => {
-			if (!(prop in fns)) {
+		get: (wrappedObj, prop) => {
+			if (!(prop in wrappedObj)) {
 				throw new Error('Unknown AHK function: ' + path + '.' + prop)
 			}
 
-			if (fns[prop] instanceof Function) {
+			if (wrappedObj[prop] instanceof Function) {
 				return (...args) => {
 					/**
-					 * @type {[InputValue]}
+					 * @type {InputValue[]}
 					 */
 					const evaluatedArgs = args
 						.map(arg => {
@@ -45,12 +45,14 @@ module.exports = (ahkTree, obj, path) => {
 							return new FnInputValue(bufferFnOutput(arg))
 						})
 
-					const out = fns[prop].apply(fns, evaluatedArgs)
+					const out = wrappedObj[prop].apply(wrappedObj, evaluatedArgs)
 					ahkTree.addChild(out)
 					return out
 				}
+			} else if (typeof wrappedObj[prop] === 'object') {
+				return module.exports(ahkTree, wrappedObj[prop], path + '.' + prop)
 			} else {
-				return module.exports(ahkTree, fns[prop], path + '.' + prop)
+				return wrappedObj[prop]
 			}
 		}
 	})

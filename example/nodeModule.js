@@ -20,22 +20,22 @@ createAhkScript(scriptPath, (ahk) => {
 	}
 
 
-	ahk.remap('capsLock', 'backspace')
-	ahk.remap(['ctrl', 'capsLock'], 'capsLock')
+	ahk.remap('CapsLock', 'Backspace')
+	ahk.remap(['Ctrl', 'CapsLock'], 'CapsLock')
 
-	ahk.remap('rAlt', 'appsKey')
+	ahk.remap('RAlt', 'AppsKey')
 
 
 	// convert left backslash to shift
-	ahk.remap('sc056', 'shift')
+	ahk.remap('sc056', 'Shift')
 
 	// minimize windows with right shift
-	ahk.remap('rShift', () => {
+	ahk.remap('RShift', () => {
 		ahk.win.minimize(null, 'A')
 	})
 
 	mapKeyToProgram(
-		['win', 'w'],
+		['Win', 'w'],
 		'notepad++.exe',
 		'E:/@programs/notepad++/notepad++.exe'
 	)

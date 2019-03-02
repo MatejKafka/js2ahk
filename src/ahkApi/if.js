@@ -5,8 +5,8 @@ const strFromChildNodes = require('../util/strFromChildNodes')
 class AhkIfNode extends AhkNode {
 	/**
 	 * @param {AhkNode} cond
-	 * @param {[AhkNode]} ifNodes
-	 * @param {[AhkNode]|null} elseNodes
+	 * @param {AhkNode[]} ifNodes
+	 * @param {AhkNode[]|null} elseNodes
 	 */
 	constructor(cond, ifNodes, elseNodes) {
 		super()

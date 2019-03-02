@@ -5,7 +5,8 @@
   "main": "index.js",
   "bin": "./bin/cli.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "docs": "documentation build ./src/ahkApi/PublicApi.js -a public -f html -o ./docs/"
   },
   "keywords": [
     "ahk",
@@ -13,5 +14,9 @@
   ],
   "author": "Matej Kafka (Anagmate)",
   "repository": "https://github.com/Anagmate/js2ahk.git",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "esdoc": "^1.1.0",
+    "esdoc-standard-plugin": "^1.0.0"
+  }
 }

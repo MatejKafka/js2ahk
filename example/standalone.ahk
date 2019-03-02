@@ -28,12 +28,12 @@
 		Send, {Blind}{AppsKey up}
 	return
 
-; hotkey: Sc056::Shift
-	Sc056::
+; hotkey: sc056::Shift
+	sc056::
 		SetKeyDelay, -1
 		Send, {Blind}{Shift DownR}
 	return
-	Sc056 up::
+	sc056 up::
 		SetKeyDelay, -1
 		Send, {Blind}{Shift up}
 	return

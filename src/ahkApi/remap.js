@@ -5,6 +5,9 @@ const {procedure} = require('../ahkFn')
 const {FnInputValue, PrimitiveInputValue, ArrayInputValue, InputValue} = require('../InputValue')
 
 
+/**
+ * @private
+ */
 class AhkHotkeyNode extends AhkNode {
 	constructor(triggerStr, cbNodes) {
 		super()
@@ -23,7 +26,7 @@ class AhkRemapNode extends AhkNode {
 	/**
 	 * @param {string} triggerStr
 	 * @param {string} remappedStr
-	 * @param {[AhkHotkeyNode]} hotkeyNodes
+	 * @param {AhkHotkeyNode[]} hotkeyNodes
 	 */
 	constructor(triggerStr, remappedStr, hotkeyNodes) {
 		super()
@@ -40,43 +43,29 @@ class AhkRemapNode extends AhkNode {
 
 
 const MODIFIER_KEY_MAPPING = {
-	'alt': '!',
-	'ctrl': '^',
-	'shift': '+',
-	'win': '#'
+	'Alt': '!',
+	'Ctrl': '^',
+	'Shift': '+',
+	'Win': '#'
 }
 
 const lookup = (obj) => (val) => val in obj ? obj[val] : null
 
 /**
- * @param {string} key
- * @returns {string}
- */
-const getKeyName = (key) =>
-	key.length > 1
-		? key.split('_')
-			.map(part =>
-				part[0].toUpperCase() + part.slice(1)
-			)
-			.join('_')
-		: key
-
-
-/**
- * @param {[string]} keyArr
+ * @private
+ * @param {string[]} keyArr
  * @param decoratorFn
  * @returns {string}
  */
 const getSendKeyStr = (keyArr, decoratorFn) =>
 	keyArr
-		.map(getKeyName)
 		.map(decoratorFn)
 		.map(key => '{' + key + '}')
 		.join('')
 
 
 /**
- *
+ * @private
  * @param {string} triggerStr
  * @param {string} sendStr
  * @returns {AhkHotkeyNode}
@@ -104,9 +93,9 @@ const generateHotkey_closing = (triggerStr, remapped) => {
 }
 
 /**
- *
- * @param {[string]} triggerKeys
- * @param {[string]} remapped
+ * @private
+ * @param {string[]} triggerKeys
+ * @param {string[]} remapped
  * @returns {AhkRemapNode}
  */
 const generateHotkey = (triggerKeys, remapped) => {
@@ -123,7 +112,8 @@ const generateHotkey = (triggerKeys, remapped) => {
 
 
 /**
- * @param {[string]} keys
+ * @private
+ * @param {string[]} keys
  * @returns {string}
  */
 const stringifyKeyCombination = (keys) => {
@@ -134,12 +124,12 @@ const stringifyKeyCombination = (keys) => {
 			if (key in MODIFIER_KEY_MAPPING) {
 				modifierKeys.push(key)
 			} else {
-				normalKeys.push(getKeyName(key))
+				normalKeys.push(key)
 			}
 		})
 
 	if (normalKeys.length === 0) {
-		normalKeys = modifierKeys.map(getKeyName)
+		normalKeys = modifierKeys
 		modifierKeys = []
 	}
 
