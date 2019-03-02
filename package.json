@@ -1,6 +1,6 @@
 {
   "name": "js2ahk",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Small package that lets you write AHK scripts in pure JS and transpile them to .ahk files",
   "main": "index.js",
   "bin": "./bin/cli.js",
@@ -14,9 +14,5 @@
   ],
   "author": "Matej Kafka (Anagmate)",
   "repository": "https://github.com/Anagmate/js2ahk.git",
-  "license": "ISC",
-  "devDependencies": {
-    "esdoc": "^1.1.0",
-    "esdoc-standard-plugin": "^1.0.0"
-  }
+  "license": "ISC"
 }
