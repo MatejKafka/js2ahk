@@ -88,7 +88,7 @@ which will have the same name as the input file, but with the `.ahk` extension.
 
 ### AHK API
 Docs for the AHK API live here:
-
+https://anagmate.github.io/js2ahk/
 
 Currently, only a handful of AHK functions are supported.
 More will be added depending on my time and public demand.
