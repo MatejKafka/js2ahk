@@ -4,4 +4,5 @@ module.exports = {
 	runProgram: require('./runProgram'),
 	if: require('./if'),
 	remap: require('./remap'),
+	raw: require('./raw'),
 }

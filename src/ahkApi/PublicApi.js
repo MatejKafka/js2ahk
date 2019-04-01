@@ -97,6 +97,17 @@ export default class PublicApi {
 	 */
 	runProgram(pathToExe) {}
 
+	/**
+	 * Wrapper around {@link https://autohotkey.com/docs/commands/Run.htm Run}.
+	 * Runs program specified by the argument.
+	 *
+	 * @public
+	 * @alias ahk.raw
+	 * @param {string} ahkCode
+	 * @returns {AhkRawNode}
+	 */
+	raw(ahkCode) {}
+
 	// noinspection JSUnusedGlobalSymbols
 	constructor() {
 		this.win = new PublicApi_Win()

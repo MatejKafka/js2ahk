@@ -75,15 +75,12 @@ const generateHotkeyRemap = (triggerStr, sendStr) => {
 	// https://autohotkey.com/docs/misc/Remap.htm#actually
 	return new AhkHotkeyNode(
 		triggerStr,
-		[
-			procedure('SetKeyDelay')([-1]),
-			procedure('Send')(['{Blind}' + sendStr])
-		]
+		[procedure('SendInput')(['{Blind}' + sendStr])]
 	)
 }
 
 const generateHotkey_opening = (triggerStr, remapped) => {
-	const sendStr = getSendKeyStr(remapped, key => key + ' DownR')
+	const sendStr = getSendKeyStr(remapped, key => key + ' Down')
 	return generateHotkeyRemap(triggerStr, sendStr)
 }
 
