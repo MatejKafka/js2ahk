@@ -8,7 +8,8 @@ const processResult = (filePath, ahkTree) => {
 	if (filePath == null) {
 		return ahkTree
 	}
-	fs.writeFileSync(filePath, ahkTree.toString())
+	//						   \|/ utf8 BOM - ahk needs it for some reason
+	fs.writeFileSync(filePath, "\ufeff" + ahkTree.toString(), {encoding: "utf8"})
 	return ahkTree
 }
 

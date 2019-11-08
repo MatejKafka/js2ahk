@@ -1,6 +1,6 @@
 {
   "name": "js2ahk",
-  "version": "0.1.6",
+  "version": "0.2.3",
   "description": "Small package that lets you write AHK scripts in pure JS and transpile them to .ahk files",
   "main": "index.js",
   "bin": "./bin/cli.js",
