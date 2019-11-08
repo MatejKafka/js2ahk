@@ -59,6 +59,7 @@ const lookup = (obj) => (val) => val in obj ? obj[val] : null
  */
 const getSendKeyStr = (keyArr, decoratorFn) =>
 	keyArr
+		.map(escapeAhkStr)
 		.map(decoratorFn)
 		.map(key => '{' + key + '}')
 		.join('')
@@ -105,6 +106,13 @@ const generateHotkey = (triggerKeys, remapped) => {
 			generateHotkey_closing(triggerStr, remapped)
 		]
 	)
+}
+
+/**
+ * @private
+ */
+const escapeAhkStr = str => {
+	return str.replace(/([\%\`\;\,])/g, "`$1")
 }
 
 
