@@ -112,7 +112,9 @@ const generateHotkey = (triggerKeys, remapped) => {
  * @private
  */
 const escapeAhkStr = str => {
-	return str.replace(/([\%\`\;\,])/g, "`$1")
+	// do not replace , with `, - AHK is stupid
+	// and thinks it is an invalid hotkey
+	return str.replace(/([\%\`\;])/g, "`$1")
 }
 
 
@@ -129,7 +131,7 @@ const stringifyKeyCombination = (keys) => {
 			if (key in MODIFIER_KEY_MAPPING) {
 				modifierKeys.push(key)
 			} else {
-				normalKeys.push(key)
+				normalKeys.push(escapeAhkStr(key))
 			}
 		})
 
