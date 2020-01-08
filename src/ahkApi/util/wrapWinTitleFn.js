@@ -1,4 +1,4 @@
-const {PrimitiveInputValue} = require('../../InputValue')
+const {PrimitiveInputValue, NullInputValue} = require('../../InputValue')
 const AhkNode = require('../../AhkNode')
 
 
@@ -15,10 +15,14 @@ const getWinTitle = (identifierType, identifier) => {
 
 /**
  * @param {function} calledFn - wrapped fn
- * @returns {function(args: ...PrimitiveInputValue)} - takes variable number of args
+ * @returns {function(args: ...PrimitiveInputValue|NullInputValue)} - takes variable number of args
  */
 const primitiveParamFn = (calledFn) => (...args) => {
-	return calledFn.apply(null, args.map(arg => arg.readPrimitive()))
+	console.log(args)
+	return calledFn.apply(null,
+		args.map(arg => arg instanceof NullInputValue
+						? null
+						: arg.readPrimitive()))
 }
 
 /**

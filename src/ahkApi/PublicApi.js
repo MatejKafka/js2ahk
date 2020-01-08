@@ -58,6 +58,22 @@ export default class PublicApi {
 	if(cond, trueCb, falseCb) {}
 
 	/**
+	 * Wrapper around the
+	 * {@link https://www.autohotkey.com/docs/commands/_If.htm context-sensitive #If directive}.
+	 * 
+	 * Look at {@link .#ahkif ahk.if} for explanation of the way this function is called.
+	 *
+	 * @public
+	 * @alias ahk.ifCtx
+	 * @param {function()} cond - This function should only contain single AHK function;
+	 *   it will be transpiled to the #If statement condition.
+	 * @param {function()} trueCb - Statements in this function will be transpiled into
+	 *   the if branch - hotkeys defined here will only be active when the condition is true.
+	 * @returns {AhkIfCtxNode}
+	 */
+	ifCtx(cond, trueCb) {}
+
+	/**
 	 * @public
 	 * @alias ahk.remap.KeyCombination
 	 * @typedef {string|string[]} KeyCombination
@@ -82,9 +98,12 @@ export default class PublicApi {
 	 * @param {KeyCombination|function()} action - Either a callback, that contains code that
 	 *   will get executed after the trigger combination is pressed, or an array of keys,
 	 *   which will be triggered by the original trigger combination.
+	 * @param {boolean} shouldCombine - set to false if you do not want to remap combinations
+	 *   that include other keys (e.g. if your hotkey is a::b, ctrl+a will be by default remapped
+	 *   to ctrl+b; with this set to false, the remap will not trigger and ctrl+a will be passed on).
 	 * @returns {AhkHotkeyNode|AhkRemapNode}
 	 */
-	remap(keyCombination, action) {}
+	remap(keyCombination, action, shouldCombine = true) {}
 
 	/**
 	 * Wrapper around {@link https://autohotkey.com/docs/commands/Run.htm Run}.

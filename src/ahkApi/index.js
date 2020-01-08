@@ -3,6 +3,7 @@ module.exports = {
 
 	runProgram: require('./runProgram'),
 	if: require('./if'),
+	ifCtx: require('./ifCtx'),
 	remap: require('./remap'),
 	raw: require('./raw'),
 }

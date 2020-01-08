@@ -1,5 +1,5 @@
 const AhkNode = require('../AhkNode')
-const {FnInputValue} = require('../InputValue')
+const {FnInputValue, NullInputValue} = require('../InputValue')
 const strFromChildNodes = require('../util/strFromChildNodes')
 
 class AhkIfNode extends AhkNode {
@@ -35,7 +35,7 @@ class AhkIfNode extends AhkNode {
 /**
  * @param {FnInputValue} cond
  * @param {FnInputValue} trueCb
- * @param {FnInputValue} falseCb
+ * @param {NullInputValue|FnInputValue} falseCb
  * @returns {AhkIfNode}
  */
 module.exports = (cond, trueCb, falseCb) => {
@@ -47,7 +47,7 @@ module.exports = (cond, trueCb, falseCb) => {
 	return new AhkIfNode(
 		condNodes[0],
 		trueCb.readEvaluatedFn(),
-		falseCb == null
+		falseCb instanceof NullInputValue
 			? null
 			: falseCb.readEvaluatedFn(),
 	)

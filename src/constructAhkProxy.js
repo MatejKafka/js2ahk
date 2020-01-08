@@ -1,4 +1,4 @@
-const {InputValue, ArrayInputValue, PrimitiveInputValue, FnInputValue} = require('./InputValue')
+const {wrapInputValue} = require('./InputValue')
 const AhkTree = require('./AhkTree')
 
 
@@ -21,7 +21,7 @@ module.exports = (ahkTree, obj, path) => {
 		ahkTree = oldBlocks
 		return result.children
 	}
-
+	
 	return new Proxy(obj, {
 		get: (wrappedObj, prop) => {
 			if (!(prop in wrappedObj)) {
@@ -30,21 +30,12 @@ module.exports = (ahkTree, obj, path) => {
 
 			if (wrappedObj[prop] instanceof Function) {
 				return (...args) => {
-					/**
-					 * @type {InputValue[]}
-					 */
-					const evaluatedArgs = args
-						.map(arg => {
-							if (!(arg instanceof Function)) {
-								if (Array.isArray(arg)) {
-									return new ArrayInputValue(arg)
-								} else {
-									return new PrimitiveInputValue(arg)
-								}
-							}
-							return new FnInputValue(bufferFnOutput(arg))
-						})
-
+					while (args.length < wrappedObj[prop].length) {
+						args.push(null)
+					}
+					
+					const evaluatedArgs = args.map(arg => wrapInputValue(arg, bufferFnOutput))
+					
 					const out = wrappedObj[prop].apply(wrappedObj, evaluatedArgs)
 					ahkTree.addChild(out)
 					return out

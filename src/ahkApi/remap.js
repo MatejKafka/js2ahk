@@ -2,7 +2,7 @@ const AhkNode = require('../AhkNode')
 const extractInputArray = require('../util/extractInputArray')
 const strFromChildNodes = require('../util/strFromChildNodes')
 const {procedure} = require('../ahkFn')
-const {FnInputValue, PrimitiveInputValue, ArrayInputValue, InputValue} = require('../InputValue')
+const {FnInputValue, PrimitiveInputValue, ArrayInputValue, NullInputValue, InputValue} = require('../InputValue')
 
 
 /**
@@ -59,7 +59,7 @@ const lookup = (obj) => (val) => val in obj ? obj[val] : null
  */
 const getSendKeyStr = (keyArr, decoratorFn) =>
 	keyArr
-		.map(escapeAhkStr)
+		.map(str => str.replace(/([\%\`\;])/g, "`$1"))
 		.map(decoratorFn)
 		.map(key => '{' + key + '}')
 		.join('')
@@ -86,18 +86,17 @@ const generateHotkey_opening = (triggerStr, remapped) => {
 }
 
 const generateHotkey_closing = (triggerStr, remapped) => {
-	const sendStr = getSendKeyStr(remapped, key => key + ' up')
-	return generateHotkeyRemap(triggerStr + ' up', sendStr)
+	const sendStr = getSendKeyStr(remapped, key => key + ' Up')
+	return generateHotkeyRemap(triggerStr + ' Up', sendStr)
 }
 
 /**
  * @private
- * @param {string[]} triggerKeys
+ * @param {string} triggerStr
  * @param {string[]} remapped
  * @returns {AhkRemapNode}
  */
-const generateHotkey = (triggerKeys, remapped) => {
-	const triggerStr = stringifyKeyCombination(triggerKeys)
+const generateHotkey = (triggerStr, remapped) => {
 	return new AhkRemapNode(
 		triggerStr,
 		stringifyKeyCombination(remapped),
@@ -111,19 +110,21 @@ const generateHotkey = (triggerKeys, remapped) => {
 /**
  * @private
  */
-const escapeAhkStr = str => {
+const escapeAhkTriggerStr = str => {
 	// do not replace , with `, - AHK is stupid
 	// and thinks it is an invalid hotkey
-	return str.replace(/([\%\`\;])/g, "`$1")
+	// for hotkeys, do not escape ` either, not sure why
+	return str.replace(/([\%\;])/g, "`$1")
 }
 
 
 /**
  * @private
  * @param {string[]} keys
+ * @param {boolean} shouldCombine
  * @returns {string}
  */
-const stringifyKeyCombination = (keys) => {
+const stringifyKeyCombination = (keys, shouldCombine) => {
 	let normalKeys = []
 	let modifierKeys = []
 	keys
@@ -131,7 +132,7 @@ const stringifyKeyCombination = (keys) => {
 			if (key in MODIFIER_KEY_MAPPING) {
 				modifierKeys.push(key)
 			} else {
-				normalKeys.push(escapeAhkStr(key))
+				normalKeys.push(escapeAhkTriggerStr(key))
 			}
 		})
 
@@ -140,9 +141,10 @@ const stringifyKeyCombination = (keys) => {
 		modifierKeys = []
 	}
 
-	return modifierKeys
-		.map(lookup(MODIFIER_KEY_MAPPING))
-		.join('')
+	return (shouldCombine ? "*" : "")
+		+ modifierKeys
+			.map(lookup(MODIFIER_KEY_MAPPING))
+			.join('')
 		+ normalKeys.join(' & ')
 }
 
@@ -150,21 +152,28 @@ const stringifyKeyCombination = (keys) => {
 /**
  * @param {PrimitiveInputValue|ArrayInputValue} keyCombination
  * @param {InputValue} cb
+ * @param {PrimitiveInputValue|NullInputValue} shouldCombine
  * @returns {AhkHotkeyNode|AhkRemapNode}
  */
-module.exports = (keyCombination, cb) => {
+module.exports = (keyCombination, cb, shouldCombine) => {
 	const keyCombinationValue = extractInputArray(keyCombination)
+	
+	const shouldCombineVal = shouldCombine instanceof NullInputValue
+		? false
+		: shouldCombine.readPrimitive()
+
+	const triggerStr = stringifyKeyCombination(keyCombinationValue, shouldCombineVal)
 
 	if (cb instanceof FnInputValue) {
 		return new AhkHotkeyNode(
-			stringifyKeyCombination(keyCombinationValue),
+			triggerStr,
 			[
 				cb.readEvaluatedFn()
 			]
 		)
 	} else if (cb instanceof PrimitiveInputValue || cb instanceof ArrayInputValue) {
 		return generateHotkey(
-			keyCombinationValue,
+			triggerStr,
 			extractInputArray(cb)
 		)
 	}
