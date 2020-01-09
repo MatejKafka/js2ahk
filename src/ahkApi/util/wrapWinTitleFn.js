@@ -18,7 +18,6 @@ const getWinTitle = (identifierType, identifier) => {
  * @returns {function(args: ...PrimitiveInputValue|NullInputValue)} - takes variable number of args
  */
 const primitiveParamFn = (calledFn) => (...args) => {
-	console.log(args)
 	return calledFn.apply(null,
 		args.map(arg => arg instanceof NullInputValue
 						? null
