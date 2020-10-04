@@ -32,8 +32,11 @@ if (!fs.existsSync(fullSrcPath)) {
 	process.exit(EXIT_CODES.nonExistentInputFile)
 }
 
-// remove .js extension, leaving *.ahk
-const outputPath = fullSrcPath.slice(0, -3)
+const outputPath = process.argv.length < 4
+	// remove .js extension, leaving *.ahk
+	? fullSrcPath.slice(0, -3)
+	: process.argv[3]
+
 
 createAhkScript(outputPath, (ahk) => {
 	// noinspection JSUndefinedPropertyAssignment
