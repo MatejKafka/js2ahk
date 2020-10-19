@@ -7,5 +7,5 @@ const {PrimitiveInputValue} = require('../InputValue')
  * @returns {AhkLeafNode}
  */
 module.exports = (pathToExe) => {
-	return procedure('Run')([pathToExe.readPrimitive()])
+	return procedure('Run')([pathToExe.readPrimitive(), "C:/"])
 }
